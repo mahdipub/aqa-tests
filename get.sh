@@ -679,12 +679,14 @@ getVendorTestMaterial() {
 	declare -a vendor_dirs_array
 
 	# convert VENDOR_REPOS to array
-	vendor_repos_array=(`echo $VENDOR_REPOS | sed 's/,/\n/g'`)
-
+	IFS=',' read -r -a vendor_repos_array <<< "$VENDOR_REPOS"
 	if [ "$VENDOR_BRANCHES" != "" ]; then
 		# convert VENDOR_BRANCHES to array
-		vendor_branches_array=(`echo $VENDOR_BRANCHES | sed 's/,/\n/g'`)
+		IFS=',' read -r -a vendor_branches_array <<< "$VENDOR_BRANCHES"
 	fi
+
+	echo "vendor_repos_array is '$vendor_repos_array'"
+	echo "vendor_branches_array is '$vendor_branches_array'"
 
 	if [ "$VENDOR_SHAS" != "" ]; then
 		#convert VENDOR_SHAS to array
