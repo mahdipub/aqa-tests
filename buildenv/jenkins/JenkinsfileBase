@@ -913,7 +913,7 @@ def checkTestResults(results) {
 		echo 'There were test failures, current build status is UNSTABLE.'
 		summary = manager.addSummary("warning.svg")
 	} else {
-		summary = manager.addSummary("accept.svg")
+		summary = manager.createSummary("accept.svg")
 	}
 
 	summary.setText(summary.getText() + "TEST TARGETS SUMMARY:<ul>")
