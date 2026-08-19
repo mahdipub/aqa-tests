@@ -936,7 +936,10 @@ def post(output_name) {
 				archiveFile("**/jvmtest/**/Dockerfile.*", true)
 			}
 
-			if (params.ARCHIVE_TEST_RESULTS && !env.JDK_VERSION.contains(',') && env.BUILD_LIST.contains('jck')) {
+			// SKIP_NATIVES_UPLOAD defaults to true to avoid TCP idle-timeout failures on high-latency nodes (e.g. AIX Rochester).
+			// Set to false explicitly to re-enable natives upload.
+			def skipNatives = (params.SKIP_NATIVES_UPLOAD != null) ? params.SKIP_NATIVES_UPLOAD : true
+			if (params.ARCHIVE_TEST_RESULTS && !env.JDK_VERSION.contains(',') && env.BUILD_LIST.contains('jck') && !skipNatives) {
 				def natives_tar_name = "natives${suffix}"
 				def natives_dir = "${WORKSPACE}/../../jck_root/JCK${env.JDK_VERSION}-unzipped/natives"
 				if (tar_cmd.startsWith('tar')) {
